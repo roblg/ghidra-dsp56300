@@ -36,7 +36,8 @@ the Symphony DSP5672x parts, ...).
 
 * A loop whose last instruction is a two-word instruction starting at `LA-1`
   is not recognised as a loop bottom by SLEIGH alone (the context lands in the
-  middle of that instruction).  Set `lbot=1`/`ltop` on `LA-1` to fix it up.
+  middle of that instruction).  The **DSP56300 Loop End** analyzer finds these
+  loops, moves the loop-end context to `LA-1` and re-disassembles it.
 * `BRKcc` branches to `LA+1` through a computed target.
 * `DIV`, `NORM`, `NORMF`, `CLB` are user ops.
 
