@@ -129,7 +129,8 @@ attach variables [ lua_d ] [ r0 r1 r2 r3 r4 r5 r6 r7 n0 n1 n2 n3 n4 n5 n6 n7 ];
 # ------------------------------------------------------------- AGU update
 macro agu_add(r, d, m) {
 @ifdef AGU_MODULO
-	r = agu_modulo(r, d, m);
+	local dd:3 = d;
+	r = agu_modulo(r, dd, m);
 @else
 	r = r + d;
 @endif
