@@ -9,8 +9,6 @@ documentation; no code from other disassemblers or emulators is included.
 * *DSP56300 Family Manual* (Motorola/Freescale, DSP56300FM): instruction
   encodings (the 24-character bit strings in `data/languages/*.sinc.in`),
   instruction semantics, the AGU, the hardware stack and loop behaviour.
-* The DSP5630x/5636x/5672x user manuals and data sheets for the family members'
-  register and memory details.
 
 No manual, or text extracted from one, is redistributed here.
 
