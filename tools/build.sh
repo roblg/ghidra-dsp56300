@@ -45,7 +45,7 @@ ZIP="$(ls "$ROOT"/dist/ghidra_"$GHIDRA_VERSION"_*_"$NAME".zip 2>/dev/null | head
 
 note "checking the zip"
 LISTING="$(unzip -Z1 "$ZIP")"
-has() { printf '%s\n' "$LISTING" | grep -qx "$1" || die "$(basename "$ZIP") has no $1"; }
+has() { grep -qx "$1" <<<"$LISTING" || die "$(basename "$ZIP") has no $1"; }
 has "$NAME/extension.properties"
 has "$NAME/lib/$NAME.jar"
 for spec in "$ROOT"/data/languages/*.slaspec; do
