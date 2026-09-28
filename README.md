@@ -1,8 +1,36 @@
-# DSP56300
+# DSP56300 for Ghidra
 
-SLEIGH specification for the Motorola/Freescale DSP56300 family of 24-bit
-digital signal processors (DSP56301/303/309/311/321/362/364/367/371/372/374,
-the Symphony DSP5672x parts, ...).
+A Ghidra processor extension for the Motorola/Freescale DSP56300 family of
+24-bit digital signal processors (DSP56301/303/309/311/321/362/364/367/371/372/374,
+the Symphony DSP5672x parts, ...).  It adds two languages and one analyzer:
+
+| | |
+|---|---|
+| `DSP56300:LE:24:default` | address registers update linearly |
+| `DSP56300:LE:24:modulo` | address register updates go through `agu_modulo(Rn, delta, Mn)` |
+| **DSP56300 Loop End** analyzer | repairs loops whose last instruction is a two-word instruction |
+
+## Install
+
+1. Download the zip for your exact Ghidra version from
+   [Releases](../../releases) (`ghidra_<version>_PUBLIC_<date>_DSP56300.zip`).
+   Ghidra refuses extensions built for another version.
+2. In Ghidra: **File > Install Extensions**, **+**, pick the zip, restart.
+3. Import a binary with language `DSP56300:LE:24:default`.  Program words are
+   read as three bytes, least significant first.
+
+If your Ghidra version has no zip, build one (below).
+
+## Build
+
+Needs the target Ghidra release, JDK 21 and Python 3.
+
+    GHIDRA_INSTALL_DIR=/path/to/ghidra_12.1.4_PUBLIC tools/build.sh
+    # -> dist/ghidra_12.1.4_PUBLIC_<date>_DSP56300.zip
+
+`tools/build.sh --install` then `tests/smoke.sh` runs the smoke tests in a
+headless Ghidra; neither touches your own Ghidra settings (see `tools/env.sh`).
+`DEBUG=1` shows the tools' full output.
 
 ## Model
 
@@ -43,11 +71,12 @@ the Symphony DSP5672x parts, ...).
 
 ## Regenerating
 
-`dsp56300.sinc` is generated.  Edit the templates and run
-
-    python3 tools/gen_sinc.py data/languages/dsp56300.sinc.in \
-        data/languages/dsp56300_np.sinc.in data/languages/dsp56300_root.sinc.in \
-        data/languages/dsp56300.sinc
+`dsp56300.sinc` is generated.  Edit the templates and run `tools/regen.sh`
+(CI fails if the committed file is stale).
 
 The templates use the Family Manual's 24-character bit strings (`{...}`); the
 generator turns them into field constraints.
+
+## License
+
+Apache License 2.0, as Ghidra.  See [NOTICE.md](NOTICE.md) for sources.

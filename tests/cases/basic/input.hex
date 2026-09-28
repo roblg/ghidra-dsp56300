@@ -1,0 +1,10 @@
+# DSP56300 program words (24 bits, stored least significant byte first),
+# loaded at P:$100.
+000000          # 000000        nop
+130020          # 200013        clr a
+00f444 230100   # 44f400 000123 move #>$123,x0
+800506 070100   # 060580 000107 do #5,$108  (LA = $107)
+400020          # 200040        add x0,a
+000000          # 000000        nop           <- LA: loops back to $106
+000000          # 000000        nop
+0c0000          # 00000c        rts

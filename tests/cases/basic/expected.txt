@@ -1,0 +1,10 @@
+SMOKE block P P:000100-P:000109.2 init rwx
+SMOKE P:000100 nop  (no p-code)
+SMOKE P:000101 clr a 
+SMOKE P:000102 move  #>0x123,x0
+SMOKE P:000104 do #0x5,0x108
+SMOKE P:000106 add x0,a 
+SMOKE P:000107 nop
+SMOKE P:000108 nop  (no p-code)
+SMOKE P:000109 rts
+SMOKE analyzer DSP56300 Loop End
