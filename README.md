@@ -19,7 +19,9 @@ the Symphony DSP5672x parts, ...).  It adds two languages and one analyzer:
 3. Import a binary with language `DSP56300:LE:24:default`.  Program words are
    read as three bytes, least significant first.
 
-If your Ghidra version has no zip, build one (below).
+Zips are built and smoke-tested for Ghidra 12.0.4, 12.1.3 and 12.1.4 (the
+matrix in `.github/workflows/build.yml`).  For another version, build one
+(below).
 
 ## Build
 
