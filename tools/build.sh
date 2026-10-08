@@ -51,7 +51,12 @@ has "$NAME/lib/$NAME.jar"
 for spec in "$ROOT"/data/languages/*.slaspec; do
   has "$NAME/data/languages/$(basename "${spec%.slaspec}").sla"
 done
-printf '  %s\n' "$ZIP"
+# buildExtension zips the whole project directory, so anything unpacked or
+# generated there that build.gradle does not exclude ends up in the zip.
+EXTRA="$(awk -F/ -v n="$NAME" '$1 == n && $2 != "" { print $2 }' <<<"$LISTING" | sort -u |
+  grep -vxE 'extension\.properties|Module\.manifest|LICENSE|NOTICE\.md|README\.md|data|lib' || true)"
+[ -z "$EXTRA" ] || die "$(basename "$ZIP") has entries that do not belong in an extension: $(echo $EXTRA)"
+printf '  %s (%s bytes)\n' "$ZIP" "$(wc -c <"$ZIP" | tr -d ' ')"
 
 if [ "${1:-}" = "--install" ]; then
   note "installing into $EXTENSIONS"

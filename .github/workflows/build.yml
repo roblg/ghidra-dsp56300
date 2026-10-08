@@ -32,7 +32,9 @@ jobs:
         # Ghidra only installs an extension built for its exact version.
         ghidra: [ "12.1.4", "12.1.3", "12.0.4" ]
     env:
-      GHIDRA_INSTALL_DIR: ${{ github.workspace }}/ghidra/ghidra_${{ matrix.ghidra }}_PUBLIC
+      # Under scratch/, which build.gradle keeps out of the zip: buildExtension
+      # packs everything else in the workspace.
+      GHIDRA_INSTALL_DIR: ${{ github.workspace }}/scratch/ghidra/ghidra_${{ matrix.ghidra }}_PUBLIC
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +47,7 @@ jobs:
       - uses: actions/cache@v4
         id: ghidra-cache
         with:
-          path: ghidra
+          path: scratch/ghidra
           key: ghidra-${{ matrix.ghidra }}
 
       - name: Download Ghidra ${{ matrix.ghidra }}
@@ -54,7 +56,8 @@ jobs:
           set -euo pipefail
           gh release download "Ghidra_${{ matrix.ghidra }}_build" -R NationalSecurityAgency/ghidra \
             --pattern "ghidra_${{ matrix.ghidra }}_PUBLIC_*.zip" --dir "$RUNNER_TEMP"
-          unzip -q "$RUNNER_TEMP"/ghidra_*.zip -d ghidra
+          mkdir -p scratch/ghidra
+          unzip -q "$RUNNER_TEMP"/ghidra_*.zip -d scratch/ghidra
 
       - uses: actions/cache@v4
         with:
